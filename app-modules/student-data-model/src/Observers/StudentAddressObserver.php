@@ -44,7 +44,7 @@ class StudentAddressObserver
     public function creating(StudentAddress $studentAddress): void
     {
         if (blank($studentAddress->order)) {
-            $studentAddress->order = DB::raw("(SELECT COALESCE(MAX(\"{$studentAddress->getTable()}\".order), 0) + 1 FROM \"{$studentAddress->getTable()}\" WHERE sisid = '{$studentAddress->sisid}')");
+            $studentAddress->order = DB::raw("(SELECT * FROM (SELECT COALESCE(MAX(\"{$studentAddress->getTable()}\".order), 0) + 1 FROM \"{$studentAddress->getTable()}\" WHERE sisid = '{$studentAddress->sisid}') AS port_next_order)");
         }
     }
 }

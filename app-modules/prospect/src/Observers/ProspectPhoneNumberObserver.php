@@ -47,7 +47,7 @@ class ProspectPhoneNumberObserver
     public function creating(ProspectPhoneNumber $prospectPhoneNumber): void
     {
         if (blank($prospectPhoneNumber->order)) {
-            $prospectPhoneNumber->order = DB::raw("(SELECT COALESCE(MAX(\"{$prospectPhoneNumber->getTable()}\".order), 0) + 1 FROM \"{$prospectPhoneNumber->getTable()}\" WHERE prospect_id = '{$prospectPhoneNumber->prospect_id}')");
+            $prospectPhoneNumber->order = DB::raw("(SELECT * FROM (SELECT COALESCE(MAX(\"{$prospectPhoneNumber->getTable()}\".order), 0) + 1 FROM \"{$prospectPhoneNumber->getTable()}\" WHERE prospect_id = '{$prospectPhoneNumber->prospect_id}') AS port_next_order)");
         }
     }
 

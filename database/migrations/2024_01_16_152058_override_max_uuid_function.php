@@ -34,6 +34,7 @@
 </COPYRIGHT>
 */
 
+use App\Database\Schema\PortedMigration;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
@@ -41,6 +42,13 @@ use Illuminate\Support\Facades\DB;
 return new class () extends Migration {
     public function up(): void
     {
+        // MySQL port: this migration teaches PostgreSQL to evaluate MAX() over a uuid column, which
+        // it cannot do natively. MySQL stores uuids as char(36) and MAX() already works on them, so
+        // there is nothing to install and no capability is lost by standing down here.
+        if (! PortedMigration::isPostgres()) {
+            return;
+        }
+
         DB::unprepared(<<<SQL
             CREATE OR REPLACE FUNCTION max (uuid, uuid)
             RETURNS uuid AS $$

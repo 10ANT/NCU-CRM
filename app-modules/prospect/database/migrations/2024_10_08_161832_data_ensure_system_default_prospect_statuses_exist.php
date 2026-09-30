@@ -55,7 +55,7 @@ return new class () extends Migration {
                     'name' => 'New',
                     'color' => 'sky',
                     'created_at' => now(),
-                    'sort' => DB::raw('(SELECT COALESCE(MAX(prospect_statuses.sort), 0) + 1 FROM prospect_statuses)'),
+                    'sort' => DB::raw('(SELECT * FROM (SELECT COALESCE(MAX(prospect_statuses.sort), 0) + 1 FROM prospect_statuses) AS port_next_order)'),
                 ]);
             }
         } else {
@@ -81,7 +81,7 @@ return new class () extends Migration {
                     'name' => 'Converted',
                     'color' => 'green',
                     'created_at' => now(),
-                    'sort' => DB::raw('(SELECT COALESCE(MAX(prospect_statuses.sort), 0) + 1 FROM prospect_statuses)'),
+                    'sort' => DB::raw('(SELECT * FROM (SELECT COALESCE(MAX(prospect_statuses.sort), 0) + 1 FROM prospect_statuses) AS port_next_order)'),
                 ]);
             }
         } else {

@@ -34,17 +34,33 @@
 </COPYRIGHT>
 */
 
+use App\Database\Schema\PortedMigration;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
 return new class () extends Migration {
     public function up(): void
     {
+        // MySQL port: citext is a PostgreSQL extension providing a case-insensitive text type. MySQL
+        // has no extensions and gets case-insensitive comparison from the column collation instead,
+        // which is utf8mb4_0900_ai_ci server-wide on this installation. The capability the extension
+        // exists to provide is therefore already present, so there is nothing to enable.
+        //
+        // Kept as a guarded no-op rather than deleted, so migration history stays aligned with
+        // upstream and the PostgreSQL path still works.
+        if (! PortedMigration::isPostgres()) {
+            return;
+        }
+
         DB::statement('CREATE EXTENSION IF NOT EXISTS citext');
     }
 
     public function down(): void
     {
+        if (! PortedMigration::isPostgres()) {
+            return;
+        }
+
         DB::statement('DROP EXTENSION IF EXISTS citext');
     }
 };

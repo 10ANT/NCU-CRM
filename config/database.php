@@ -36,6 +36,33 @@
 
 use Illuminate\Support\Str;
 
+/*
+ * MySQL port, workstream B.
+ *
+ * Upstream hardcodes 'pgsql' on both connections below. The driver is now selected by
+ * DB_DRIVER and still defaults to 'pgsql', so a checkout with no DB_DRIVER set behaves
+ * exactly as upstream does. Nothing is removed: both engines remain fully supported.
+ */
+$databaseDriver = env('DB_DRIVER', 'pgsql');
+
+/*
+ * ANSI_QUOTES makes MySQL read "identifier" as an identifier rather than a string literal,
+ * which is what upstream's raw SQL assumes. Setting it on the connection rather than in the
+ * server's my.ini keeps the behaviour travelling with the application.
+ *
+ * The rest of this list is MySQL 8.4's own default sql_mode, restated because Laravel's
+ * 'modes' key replaces sql_mode wholesale rather than adding to it.
+ */
+$mysqlModes = [
+    'ONLY_FULL_GROUP_BY',
+    'STRICT_TRANS_TABLES',
+    'NO_ZERO_IN_DATE',
+    'NO_ZERO_DATE',
+    'ERROR_FOR_DIVISION_BY_ZERO',
+    'NO_ENGINE_SUBSTITUTION',
+    'ANSI_QUOTES',
+];
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -68,32 +95,42 @@ return [
 
     'connections' => [
         'landlord' => [
-            'driver' => 'pgsql',
+            'driver' => $databaseDriver,
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
+            'charset' => $databaseDriver === 'mysql' ? 'utf8mb4' : 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
+            // Read by the pgsql connector, ignored by the mysql connector.
             'search_path' => 'public',
             'sslmode' => 'prefer',
+            // Read by the mysql connector, ignored by the pgsql connector.
+            'collation' => 'utf8mb4_0900_ai_ci',
+            'engine' => 'InnoDB',
+            'modes' => $mysqlModes,
         ],
 
         'tenant' => [
-            'driver' => 'pgsql',
+            'driver' => $databaseDriver,
             'host' => env('TENANT_DB_HOST'),
             'port' => env('TENANT_DB_PORT'),
             'database' => env('TENANT_DB_DATABASE', ''),
             'username' => env('TENANT_DB_USERNAME'),
             'password' => env('TENANT_DB_PASSWORD'),
-            'charset' => 'utf8',
+            'charset' => $databaseDriver === 'mysql' ? 'utf8mb4' : 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
+            // Read by the pgsql connector, ignored by the mysql connector.
             'search_path' => 'public',
             'sslmode' => 'prefer',
+            // Read by the mysql connector, ignored by the pgsql connector.
+            'collation' => 'utf8mb4_0900_ai_ci',
+            'engine' => 'InnoDB',
+            'modes' => $mysqlModes,
         ],
     ],
 

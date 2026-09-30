@@ -85,7 +85,7 @@ class AutoImportEnrollmentSemesters implements ShouldQueue, TenantAware
             $newSemesters = $newSemesterNames->values()->map(fn (string $name, int $index): array => [
                 'id' => Str::uuid(),
                 'name' => $name,
-                'order' => DB::raw('(SELECT COALESCE(MAX("order"), 0) FROM "' . $table . '") + ' . ($index + 1)),
+                'order' => DB::raw('(SELECT * FROM (SELECT COALESCE(MAX("order"), 0) FROM "' . $table . '") AS port_next_order) + ' . ($index + 1)),
                 'created_at' => now(),
                 'updated_at' => now(),
             ])->all();

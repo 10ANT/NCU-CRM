@@ -47,7 +47,7 @@ class StudentPhoneNumberObserver
     public function creating(StudentPhoneNumber $studentPhoneNumber): void
     {
         if (blank($studentPhoneNumber->order)) {
-            $studentPhoneNumber->order = DB::raw("(SELECT COALESCE(MAX(\"{$studentPhoneNumber->getTable()}\".order), 0) + 1 FROM \"{$studentPhoneNumber->getTable()}\" WHERE sisid = '{$studentPhoneNumber->sisid}')");
+            $studentPhoneNumber->order = DB::raw("(SELECT * FROM (SELECT COALESCE(MAX(\"{$studentPhoneNumber->getTable()}\".order), 0) + 1 FROM \"{$studentPhoneNumber->getTable()}\" WHERE sisid = '{$studentPhoneNumber->sisid}') AS port_next_order)");
         }
     }
 

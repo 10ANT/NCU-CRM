@@ -12,6 +12,11 @@
             <directory suffix="Test.php">./app-modules/*/tests/Tenant</directory>
             <file>./tests/TenantMigrationTests.php</file>
         </testsuite>
+        <!-- MySQL compatibility port, not upstream. Pure SQL translation tests: no database, no
+             application boot, so they run in milliseconds. -->
+        <testsuite name="Port">
+            <directory suffix="Test.php">./tests/Port</directory>
+        </testsuite>
         <testsuite name="Modules">
             <directory suffix="Test.php">./app-modules/*/tests</directory>
             <exclude>./app-modules/*/tests/Landlord</exclude>

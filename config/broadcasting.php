@@ -62,6 +62,28 @@ return [
     */
 
     'connections' => [
+        /*
+         * MySQL port, workstream C. Laravel Reverb is the self-hosted replacement for Ably, which
+         * upstream uses and which needs a paid account. Reverb speaks the same protocol Laravel Echo
+         * already expects, so real-time features keep working with no client changes and no external
+         * service. Start it with `php artisan reverb:start`.
+         *
+         * Upstream's ably and pusher connections below are untouched and still selectable.
+         */
+        'reverb' => [
+            'driver' => 'reverb',
+            'key' => env('REVERB_APP_KEY'),
+            'secret' => env('REVERB_APP_SECRET'),
+            'app_id' => env('REVERB_APP_ID'),
+            'options' => [
+                'host' => env('REVERB_HOST', '127.0.0.1'),
+                'port' => (int) env('REVERB_PORT', 8080),
+                'scheme' => env('REVERB_SCHEME', 'http'),
+                'useTLS' => env('REVERB_SCHEME', 'http') === 'https',
+            ],
+            'client_options' => [],
+        ],
+
         'pusher' => [
             'driver' => 'pusher',
             'key' => env('PUSHER_APP_KEY'),

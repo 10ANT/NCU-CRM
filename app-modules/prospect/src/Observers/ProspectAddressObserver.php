@@ -44,7 +44,7 @@ class ProspectAddressObserver
     public function creating(ProspectAddress $prospectAddress): void
     {
         if (blank($prospectAddress->order)) {
-            $prospectAddress->order = DB::raw("(SELECT COALESCE(MAX(\"{$prospectAddress->getTable()}\".order), 0) + 1 FROM \"{$prospectAddress->getTable()}\" WHERE prospect_id = '{$prospectAddress->prospect_id}')");
+            $prospectAddress->order = DB::raw("(SELECT * FROM (SELECT COALESCE(MAX(\"{$prospectAddress->getTable()}\".order), 0) + 1 FROM \"{$prospectAddress->getTable()}\" WHERE prospect_id = '{$prospectAddress->prospect_id}') AS port_next_order)");
         }
     }
 }

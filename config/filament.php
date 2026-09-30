@@ -47,15 +47,45 @@ return [
     |
     */
 
+    /*
+     * MySQL port note. Upstream hardcodes the Ably endpoint here and reads the key from
+     * VITE_ABLY_PUBLIC_KEY. Filament renders this config into every page whenever it is truthy
+     * (vendor/filament/filament/resources/views/components/layout/base.blade.php:151), and the
+     * client library throws immediately when handed an empty key. That exception aborts the page's
+     * scripts before Livewire initialises, so nothing with wire:submit works: the login form falls
+     * back to a plain browser submit and the page simply reloads, with no error shown.
+     *
+     * So this is now selected by which broadcaster is actually configured:
+     *
+     *   - Reverb, the self-hosted replacement for Ably that this port uses, when REVERB_APP_KEY is set
+     *   - Ably, exactly as upstream, when VITE_ABLY_PUBLIC_KEY is set
+     *   - nothing at all when neither is, which leaves the application working rather than broken
+     *
+     * The third case removes no capability. With no key there is no realtime connection to make
+     * either way; the only difference is whether the rest of the page still runs.
+     */
     'broadcasting' => [
-        'echo' => [
-            'broadcaster' => 'pusher',
-            'key' => env('VITE_ABLY_PUBLIC_KEY'),
-            'wsHost' => 'realtime-pusher.ably.io',
-            'wsPort' => 443,
-            'disableStats' => true,
-            'encrypted' => true,
-        ],
+        'echo' => match (true) {
+            filled(env('REVERB_APP_KEY')) => [
+                'broadcaster' => 'reverb',
+                'key' => env('REVERB_APP_KEY'),
+                'wsHost' => env('REVERB_HOST', '127.0.0.1'),
+                'wsPort' => (int) env('REVERB_PORT', 8080),
+                'wssPort' => (int) env('REVERB_PORT', 8080),
+                'forceTLS' => env('REVERB_SCHEME', 'http') === 'https',
+                'enabledTransports' => ['ws', 'wss'],
+                'disableStats' => true,
+            ],
+            filled(env('VITE_ABLY_PUBLIC_KEY')) => [
+                'broadcaster' => 'pusher',
+                'key' => env('VITE_ABLY_PUBLIC_KEY'),
+                'wsHost' => 'realtime-pusher.ably.io',
+                'wsPort' => 443,
+                'disableStats' => true,
+                'encrypted' => true,
+            ],
+            default => null,
+        },
     ],
 
     /*

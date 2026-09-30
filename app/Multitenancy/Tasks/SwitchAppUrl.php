@@ -60,7 +60,16 @@ class SwitchAppUrl implements SwitchTenantTask
         // We may want to look into defining whether we want to use https at the tenant level
         $scheme = parse_url($this->originalUrl)['scheme'];
 
-        $this->setAppUrl("{$scheme}://{$tenant->domain}");
+        // Carry the port from the configured application URL onto the tenant origin. A tenant's
+        // `domain` column holds a bare hostname, so building the origin from it alone silently drops
+        // any port. That is invisible in production, where the app is served on 80 or 443, but locally
+        // every generated URL then points at the wrong port: `artisan serve` answers on 8010 while
+        // redirects go to port 80. Nothing changes when the application URL has no explicit port.
+        $port = parse_url($this->originalUrl, PHP_URL_PORT);
+
+        $origin = "{$scheme}://{$tenant->domain}" . ($port === null ? '' : ":{$port}");
+
+        $this->setAppUrl($origin);
 
         URL::useOrigin(config('app.url'));
     }

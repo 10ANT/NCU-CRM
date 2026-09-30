@@ -254,6 +254,8 @@ return [
         ViewServiceProvider::class,
         AppServiceProvider::class,
         ApiServiceProvider::class,
+        // MySQL compatibility port, not upstream. See app/Database/ResilientMySqlPdo.php.
+        App\Providers\DatabasePortServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
         EventServiceProvider::class,

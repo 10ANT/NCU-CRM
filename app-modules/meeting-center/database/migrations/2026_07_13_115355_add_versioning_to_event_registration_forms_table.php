@@ -37,6 +37,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
+use App\Database\Schema\PortedMigration;
 use Tpetry\PostgresqlEnhanced\Schema\Blueprint;
 use Tpetry\PostgresqlEnhanced\Support\Facades\Schema;
 
@@ -57,8 +58,14 @@ return new class () extends Migration {
 
             // Archive all but the most recently created active form per event
             // so the partial unique index can be created cleanly on existing data.
+            // MySQL port: PostgreSQL's DISTINCT ON has no MySQL equivalent, and MySQL additionally
+            // forbids referencing the table being updated in a subquery unless it is materialised in a
+            // derived table. ROW_NUMBER() partitioned by event_id reproduces DISTINCT ON exactly: the
+            // first row per event_id under the same ordering. Ties are resolved arbitrarily by both
+            // engines, so behaviour matches.
             DB::statement(
-                'UPDATE event_registration_forms
+                PortedMigration::isPostgres()
+                    ? 'UPDATE event_registration_forms
                  SET archived_at = NOW()
                  WHERE archived_at IS NULL
                    AND id NOT IN (
@@ -66,6 +73,19 @@ return new class () extends Migration {
                        FROM event_registration_forms
                        WHERE archived_at IS NULL
                        ORDER BY event_id, created_at DESC
+                   )'
+                    : 'UPDATE event_registration_forms
+                 SET archived_at = NOW()
+                 WHERE archived_at IS NULL
+                   AND id NOT IN (
+                       SELECT id FROM (
+                           SELECT id, ROW_NUMBER() OVER (
+                               PARTITION BY event_id ORDER BY created_at DESC
+                           ) AS port_rank
+                           FROM event_registration_forms
+                           WHERE archived_at IS NULL
+                       ) AS port_ranked
+                       WHERE port_rank = 1
                    )'
             );
 

@@ -44,7 +44,7 @@ class ConcernStatusObserver
     public function creating(ConcernStatus $concernStatus): void
     {
         if ($concernStatus->order == null) {
-            $concernStatus->setAttribute('order', DB::raw('(SELECT COALESCE(MAX(alert_statuses.order), 0) + 1 FROM alert_statuses)'));
+            $concernStatus->setAttribute('order', DB::raw('(SELECT * FROM (SELECT COALESCE(MAX(alert_statuses.order), 0) + 1 FROM alert_statuses) AS port_next_order)'));
         }
     }
 }
