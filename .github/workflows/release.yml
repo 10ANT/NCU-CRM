@@ -109,7 +109,7 @@ jobs:
 
             - name: Fill in the new image ID in the Amazon ECS task definition
               id: task-def
-              uses: aws-actions/amazon-ecs-render-task-definition@138c24f321fdbdf7edee4a685519d253cae2cdea # v1.9.0
+              uses: aws-actions/amazon-ecs-render-task-definition@8d79160660ad39c402a16e5fc7cd2a32e8f7d6b7 # v1.9.1
               with:
                   task-definition: 'docker/devops/ecs/advisingapp/advisingapp-prod-task-definition.json'
                   container-name: 'app'
@@ -233,7 +233,7 @@ jobs:
 
             - name: Fill in the new image ID in the Amazon ECS task definition
               id: task-def
-              uses: aws-actions/amazon-ecs-render-task-definition@138c24f321fdbdf7edee4a685519d253cae2cdea # v1.9.0
+              uses: aws-actions/amazon-ecs-render-task-definition@8d79160660ad39c402a16e5fc7cd2a32e8f7d6b7 # v1.9.1
               with:
                   task-definition: 'docker/devops/ecs/advisingapp/advisingapp-worker-prod-task-definition.json'
                   container-name: 'worker'
@@ -357,7 +357,7 @@ jobs:
 
             - name: Fill in the new image ID in the Amazon ECS task definition
               id: task-def
-              uses: aws-actions/amazon-ecs-render-task-definition@138c24f321fdbdf7edee4a685519d253cae2cdea # v1.9.0
+              uses: aws-actions/amazon-ecs-render-task-definition@8d79160660ad39c402a16e5fc7cd2a32e8f7d6b7 # v1.9.1
               with:
                   task-definition: 'docker/devops/ecs/advisingapp/advisingapp-scheduler-prod-task-definition.json'
                   container-name: 'scheduler'
@@ -481,7 +481,7 @@ jobs:
 
             - name: Fill in the new image ID in the Amazon ECS task definition
               id: task-def
-              uses: aws-actions/amazon-ecs-render-task-definition@138c24f321fdbdf7edee4a685519d253cae2cdea # v1.9.0
+              uses: aws-actions/amazon-ecs-render-task-definition@8d79160660ad39c402a16e5fc7cd2a32e8f7d6b7 # v1.9.1
               with:
                   task-definition: 'docker/devops/ecs/advisingapp/advisingapp-release-automation-prod-task-definition.json'
                   container-name: 'release-automation'
