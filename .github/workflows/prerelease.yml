@@ -24,7 +24,7 @@ jobs:
         steps:
             - name: Generate GitHub App Token
               id: app-token
-              uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
               with:
                   client-id: ${{ secrets.CGBS_AUTOMATION_APP_CLIENT_ID }} # zizmor: ignore[secrets-outside-env]
                   private-key: ${{ secrets.CGBS_AUTOMATION_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env]
@@ -82,7 +82,7 @@ jobs:
         steps:
             - name: Generate GitHub App Token
               id: app-token
-              uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
               with:
                   client-id: ${{ secrets.CGBS_AUTOMATION_APP_CLIENT_ID }} # zizmor: ignore[secrets-outside-env]
                   private-key: ${{ secrets.CGBS_AUTOMATION_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env]
@@ -109,7 +109,7 @@ jobs:
 
             - name: Fill in the new image ID in the Amazon ECS task definition
               id: task-def
-              uses: aws-actions/amazon-ecs-render-task-definition@138c24f321fdbdf7edee4a685519d253cae2cdea # v1.9.0
+              uses: aws-actions/amazon-ecs-render-task-definition@8d79160660ad39c402a16e5fc7cd2a32e8f7d6b7 # v1.9.1
               with:
                   task-definition: 'docker/devops/ecs/advisingapp/advisingapp-dev-task-definition.json'
                   container-name: 'app'
@@ -117,7 +117,7 @@ jobs:
 
             - name: Deploy Amazon ECS task definition
               id: task-deploy
-              uses: aws-actions/amazon-ecs-deploy-task-definition@c465972ecbd160473f22e683363b422a5412a3de # v2.6.3
+              uses: aws-actions/amazon-ecs-deploy-task-definition@a00d4d57ac0de1a99b39fe469f3d898d38717c2b # v2.6.4
               with:
                   task-definition: ${{ steps.task-def.outputs.task-definition }}
                   service: 'advisingapp-dev-service'
@@ -148,7 +148,7 @@ jobs:
         steps:
             - name: Generate GitHub App Token
               id: app-token
-              uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
               with:
                   client-id: ${{ secrets.CGBS_AUTOMATION_APP_CLIENT_ID }} # zizmor: ignore[secrets-outside-env]
                   private-key: ${{ secrets.CGBS_AUTOMATION_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env]
@@ -206,7 +206,7 @@ jobs:
         steps:
             - name: Generate GitHub App Token
               id: app-token
-              uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
               with:
                   client-id: ${{ secrets.CGBS_AUTOMATION_APP_CLIENT_ID }} # zizmor: ignore[secrets-outside-env]
                   private-key: ${{ secrets.CGBS_AUTOMATION_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env]
@@ -233,7 +233,7 @@ jobs:
 
             - name: Fill in the new image ID in the Amazon ECS task definition
               id: task-def
-              uses: aws-actions/amazon-ecs-render-task-definition@138c24f321fdbdf7edee4a685519d253cae2cdea # v1.9.0
+              uses: aws-actions/amazon-ecs-render-task-definition@8d79160660ad39c402a16e5fc7cd2a32e8f7d6b7 # v1.9.1
               with:
                   task-definition: 'docker/devops/ecs/advisingapp/advisingapp-worker-dev-task-definition.json'
                   container-name: 'worker'
@@ -241,7 +241,7 @@ jobs:
 
             - name: Deploy Amazon ECS task definition
               id: task-deploy
-              uses: aws-actions/amazon-ecs-deploy-task-definition@c465972ecbd160473f22e683363b422a5412a3de # v2.6.3
+              uses: aws-actions/amazon-ecs-deploy-task-definition@a00d4d57ac0de1a99b39fe469f3d898d38717c2b # v2.6.4
               with:
                   task-definition: ${{ steps.task-def.outputs.task-definition }}
                   service: 'advisingapp-worker-dev-service'
@@ -272,7 +272,7 @@ jobs:
         steps:
             - name: Generate GitHub App Token
               id: app-token
-              uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
               with:
                   client-id: ${{ secrets.CGBS_AUTOMATION_APP_CLIENT_ID }} # zizmor: ignore[secrets-outside-env]
                   private-key: ${{ secrets.CGBS_AUTOMATION_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env]
@@ -330,7 +330,7 @@ jobs:
         steps:
             - name: Generate GitHub App Token
               id: app-token
-              uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
               with:
                   client-id: ${{ secrets.CGBS_AUTOMATION_APP_CLIENT_ID }} # zizmor: ignore[secrets-outside-env]
                   private-key: ${{ secrets.CGBS_AUTOMATION_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env]
@@ -357,7 +357,7 @@ jobs:
 
             - name: Fill in the new image ID in the Amazon ECS task definition
               id: task-def
-              uses: aws-actions/amazon-ecs-render-task-definition@138c24f321fdbdf7edee4a685519d253cae2cdea # v1.9.0
+              uses: aws-actions/amazon-ecs-render-task-definition@8d79160660ad39c402a16e5fc7cd2a32e8f7d6b7 # v1.9.1
               with:
                   task-definition: 'docker/devops/ecs/advisingapp/advisingapp-scheduler-dev-task-definition.json'
                   container-name: 'scheduler'
@@ -365,7 +365,7 @@ jobs:
 
             - name: Deploy Amazon ECS task definition
               id: task-deploy
-              uses: aws-actions/amazon-ecs-deploy-task-definition@c465972ecbd160473f22e683363b422a5412a3de # v2.6.3
+              uses: aws-actions/amazon-ecs-deploy-task-definition@a00d4d57ac0de1a99b39fe469f3d898d38717c2b # v2.6.4
               with:
                   task-definition: ${{ steps.task-def.outputs.task-definition }}
                   service: 'advisingapp-scheduler-dev-service'
@@ -396,7 +396,7 @@ jobs:
         steps:
             - name: Generate GitHub App Token
               id: app-token
-              uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
               with:
                   client-id: ${{ secrets.CGBS_AUTOMATION_APP_CLIENT_ID }} # zizmor: ignore[secrets-outside-env]
                   private-key: ${{ secrets.CGBS_AUTOMATION_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env]
@@ -454,7 +454,7 @@ jobs:
         steps:
             - name: Generate GitHub App Token
               id: app-token
-              uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
               with:
                   client-id: ${{ secrets.CGBS_AUTOMATION_APP_CLIENT_ID }} # zizmor: ignore[secrets-outside-env]
                   private-key: ${{ secrets.CGBS_AUTOMATION_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env]
@@ -481,14 +481,14 @@ jobs:
 
             - name: Fill in the new image ID in the Amazon ECS task definition
               id: task-def
-              uses: aws-actions/amazon-ecs-render-task-definition@138c24f321fdbdf7edee4a685519d253cae2cdea # v1.9.0
+              uses: aws-actions/amazon-ecs-render-task-definition@8d79160660ad39c402a16e5fc7cd2a32e8f7d6b7 # v1.9.1
               with:
                   task-definition: 'docker/devops/ecs/advisingapp/advisingapp-release-automation-dev-task-definition.json'
                   container-name: 'release-automation'
                   image: ${{ needs.build-release-automation.outputs.image }}
 
             - name: Deploy Amazon ECS task definition
-              uses: aws-actions/amazon-ecs-deploy-task-definition@c465972ecbd160473f22e683363b422a5412a3de # v2.6.3
+              uses: aws-actions/amazon-ecs-deploy-task-definition@a00d4d57ac0de1a99b39fe469f3d898d38717c2b # v2.6.4
               with:
                   task-definition: ${{ steps.task-def.outputs.task-definition }}
                   cluster: 'advisingapp-dev'

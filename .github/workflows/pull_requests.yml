@@ -35,7 +35,7 @@ jobs:
             - name: Generate GitHub App Token
               id: app-token
               if: ${{ github.event_name == 'merge_group' || github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login != 'dependabot[bot]' }}
-              uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
               with:
                   client-id: ${{ secrets.CGBS_AUTOMATION_APP_CLIENT_ID }} # zizmor: ignore[secrets-outside-env]
                   private-key: ${{ secrets.CGBS_AUTOMATION_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env]
@@ -57,7 +57,7 @@ jobs:
 
             - name: Setup cache environment
               id: extcache
-              uses: shivammathur/cache-extensions@de3c642a5fce0ef91581a1c9831e229f525196d6 #1.15.1
+              uses: shivammathur/cache-extensions@2abd2f0f7e31e52e198f67f882dea153f87bc11b #1.15.3
               with:
                   php-version: ${{ env.php-version }}
                   extensions: ${{ env.php-extensions }}
@@ -70,7 +70,7 @@ jobs:
                   key: ${{ runner.os }}-phpext-${{ env.php-version }}-${{ env.php-extensions-key }}
                   restore-keys: ${{ runner.os }}-phpext-${{ env.php-version }}
 
-            - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #2.37.2
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 #2.40.0
               with:
                   php-version: ${{ env.php-version }}
                   coverage: none
@@ -91,14 +91,14 @@ jobs:
               run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader
               shell: bash
 
-            - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+            - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
               with:
                   node-version-file: '.nvmrc'
                   cache: 'npm'
             - run: npm install
 
             - name: Set up Ruby
-              uses: ruby/setup-ruby@a0102e0972be65f351c307e2d64b9314a57c8073 # v1.324.0
+              uses: ruby/setup-ruby@651ff0d62c5c79bed6d53ec518387aae20e72c1a # v1.329.0
 
             - name: Run Ruby Script
               run: ruby ./copyright.rb
@@ -215,7 +215,7 @@ jobs:
 
             - name: Setup cache environment
               id: extcache
-              uses: shivammathur/cache-extensions@de3c642a5fce0ef91581a1c9831e229f525196d6 #1.15.1
+              uses: shivammathur/cache-extensions@2abd2f0f7e31e52e198f67f882dea153f87bc11b #1.15.3
               with:
                   php-version: ${{ needs.prep-and-code-consistency.outputs.php-version }}
                   extensions: ${{ needs.prep-and-code-consistency.outputs.php-extensions }}
@@ -228,7 +228,7 @@ jobs:
                   key: ${{ runner.os }}-phpext-${{ needs.prep-and-code-consistency.outputs.php-version }}-${{ needs.prep-and-code-consistency.outputs.php-extensions-key }}
                   restore-keys: ${{ runner.os }}-phpext-${{ needs.prep-and-code-consistency.outputs.php-version }}
 
-            - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #2.37.2
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 #2.40.0
               with:
                   php-version: ${{ needs.prep-and-code-consistency.outputs.php-version }}
                   coverage: none
@@ -255,7 +255,7 @@ jobs:
               run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader
               shell: bash
 
-            - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+            - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
               with:
                   node-version-file: '.nvmrc'
                   cache: 'npm'
@@ -337,7 +337,7 @@ jobs:
         steps:
             - name: Setup cache environment
               id: extcache
-              uses: shivammathur/cache-extensions@de3c642a5fce0ef91581a1c9831e229f525196d6 #1.15.1
+              uses: shivammathur/cache-extensions@2abd2f0f7e31e52e198f67f882dea153f87bc11b #1.15.3
               with:
                   php-version: ${{ needs.prep-and-code-consistency.outputs.php-version }}
                   extensions: ${{ needs.prep-and-code-consistency.outputs.php-extensions }}
@@ -350,7 +350,7 @@ jobs:
                   key: ${{ runner.os }}-phpext-${{ needs.prep-and-code-consistency.outputs.php-version }}-${{ needs.prep-and-code-consistency.outputs.php-extensions-key }}
                   restore-keys: ${{ runner.os }}-phpext-${{ needs.prep-and-code-consistency.outputs.php-version }}
 
-            - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 #2.37.2
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 #2.40.0
               with:
                   php-version: ${{ needs.prep-and-code-consistency.outputs.php-version }}
                   coverage: none
@@ -428,7 +428,7 @@ jobs:
             # automation" rule, which lets Copilot's review actually start.
             - name: Generate GitHub App Token
               id: app-token
-              uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
               with:
                   client-id: ${{ secrets.CGBS_AUTOMATION_APP_CLIENT_ID }} # zizmor: ignore[secrets-outside-env]
                   private-key: ${{ secrets.CGBS_AUTOMATION_APP_PRIVATE_KEY }} # zizmor: ignore[secrets-outside-env]
